@@ -3,6 +3,6 @@
 
 body {
   background-color: #d1d4dc;
-  background-position: center;
-  height: 100vh;
+  position: relative;
+  min-height: 100vh;
 }

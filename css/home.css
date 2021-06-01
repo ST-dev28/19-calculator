@@ -1,0 +1,8 @@
+@import './base/reset.css';
+@import './components/calculator.css';
+
+body {
+  background-color: #d1d4dc;
+  background-position: center;
+  height: 100vh;
+}

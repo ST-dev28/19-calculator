@@ -1,3 +1,3 @@
-import { Calculator } from './components/Calculator.js';
+//import { Calculator } from './components/Calculator.js';
 
-new Calculator('body');
+//new Calculator('body');

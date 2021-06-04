@@ -9,8 +9,7 @@
   box-shadow: 0 10px 20px #49484833;
   transform: translate(-50%, -50%);
   top: 50%;
-  left: 45%;
-  color: #5f6067;
+  left: 50%;
 }
 
 .calculator > .screen {
@@ -50,6 +49,7 @@
   text-align: center;
   font-size: 24px;
   line-height: 50px;
+  cursor: pointer;
 }
 
 .calculator > .keyboard > .button.light {

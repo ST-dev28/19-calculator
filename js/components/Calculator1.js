@@ -19,7 +19,7 @@ class Calculator {
     clear() {
         this.actionScreen = '';
         this.resultScreen = '';
-        this.operation = underfiend; // jei istrinam, nera jokio pasirinkimo
+        this.operation = undefined; // jei istrinam, nera jokio pasirinkimo
     }
 
     delete () {
@@ -34,18 +34,31 @@ class Calculator {
     }
 
     operationChoise (operation) {
-
+        if (this.actionScreen === '') return;
+        if (this.resultScreen !== '') {
+            this.calculation();
+        }
+        this.operation = operation;
+        this.resultScreen = this.actionScreen;
+        this.actionScreen = '';
     }
 
     calculation () {
+        let calculating
+        const prev = parseFloat(this.resultScreen);
+        const current = parseFloat(this.actionScreen);
+        if(isNaN(prev)|| isNaN(current)) return;
+
+    }
 
     }
 
     displayUpdate () {
         this.actionScreen.innerText = this.actionScreen;
     }
-
 }
+
+
 
 const numberButtons = document.querySelectorAll('.button.number');
 const operationButtons = document.querySelectorAll('.button.operation');

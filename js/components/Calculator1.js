@@ -28,8 +28,8 @@ class Calculator {
     }
 
     appendNumber (number) {
-        if (number === '.' && this.actionScreen.includes('.')) return;
-        // verciam i stringa, kad pvz sudetis butu 1+1=2, bet ne 1+1=11
+       if (number === '.' && this.actionScreen.includes('.')) return;
+        //verciam i stringa, kad pvz sudetis butu 1+1=2, bet ne 1+1=11
         this.actionScreen = this.actionScreen.toString() + number.toString(); 
     }
 
@@ -47,23 +47,23 @@ class Calculator {
         let calculating
         const prev = parseFloat(this.resultScreen);
         const current = parseFloat(this.actionScreen);
-        if(isNaN(prev)|| isNaN(current)) return;
+        if(isNaN(prev) || isNaN(current)) return;
 
     }
-
-    }
-
     displayUpdate () {
         this.actionScreen.innerText = this.actionScreen;
     }
 }
 
 
-
 const numberButtons = document.querySelectorAll('.button.number');
+//console.log(numberButtons);
 const operationButtons = document.querySelectorAll('.button.operation');
+//console.log(operationButtons);
 const equalButtons = document.querySelector('.button.red');
+//console.log(equalButtons);
 const clearButtons = document.querySelector('.button.clear');
+//console.log(clearButtons);
 const deleteButtons = document.querySelector('.button.delete');
 const actionScreen = document.querySelector('.action');
 const resultScreen = document.querySelector('.result');

@@ -1,88 +1,71 @@
+/*
+3. su JS sugeneruoti HTML:
+- minimum: klavietūra;
+- tobulas: visas objektas
+4. spaudžiant su pele ant mygtukų:
+- jei skaičius ar operatorius, simbolis yra įtraukiamas/parašomas ekrane
+- jei C, tai išvalo ekraną
+- jei < (backspace), tai nutrina vieną simbolį (iš galo)
+- visi kiti nedaro nieko
+*/
 class Calculator {
-    constructor(selector) {
-        this.selector = selector;
+    constructor(actionScreen, resultScreen) {
+        this.actionScreen = actionScreen;
+        this.resultScreen = resultScreen;
+        this.clear();
 
-        this.DOM = null;
-        this.buttonsData = [
-            { title: 'C', color: 'grey' },
-            { title: '+/-', color: 'grey' },
-            { title: '%', color: 'grey' },
-            { title: '/', color: 'dark' },
-            { title: '1' },
-            { title: '2' },
-            { title: '3' },
-            { title: '*', color: 'dark' },
-            { title: '4' },
-            { title: '5' },
-            { title: '6' },
-            { title: '-', color: 'dark' },
-            { title: '7' },
-            { title: '8' },
-            { title: '9' },
-            { title: '+', color: 'dark' },
-            { title: '0' },
-            { title: '.' },
-            { title: '<' },
-            { title: '=', color: 'red' },
-        ];
-
-        this.init();
+    }
+//panaikinti viska, kas parasyta abiejuose languose
+    clear() {
+        this.actionScreen = '';
+        this.resultScreen = '';
+        this.operation = underfiend; // jei istrinam, nera jokio pasirinkimo
     }
 
-    init() {
-        if (!this.isValidSelector() ||
-            !this.findElementBySelector()) {
-            return false;
-        }
+    delete () {
 
-        this.render();
+
     }
 
-    isValidSelector() {
-        if (typeof this.selector !== 'string' ||
-            this.selector === '') {
-            return false;
-        }
-        return true;
+    appendNumber (number) {
+        if (number === '.' && this.actionScreen.includes('.')) return;
+        // verciam i stringa, kad pvz sudetis butu 1+1=2, bet ne 1+1=11
+        this.actionScreen = this.actionScreen.toString() + number.toString(); 
     }
 
-    findElementBySelector() {
-        this.DOM = document.querySelector(this.selector);
-        return !!this.DOM;
+    operationChoise (operation) {
+
     }
 
-    render() {
-        const HTML = `<div class="calculator">
-                        <div class="screen">
-                            <div class="answer">0</div>
-                            <div class="equation">2+2*2</div>
-                        </div>
-                        <div class="keyboard">
-                            <div class="button">C</div>
-                            <div class="button">+/-</div>
-                            <div class="button">%</div>
-                            <div class="button">/</div>
-                            <div class="button">1</div>
-                            <div class="button">2</div>
-                            <div class="button">3</div>
-                            <div class="button">*</div>
-                            <div class="button">4</div>
-                            <div class="button">5</div>
-                            <div class="button">6</div>
-                            <div class="button">-</div>
-                            <div class="button">7</div>
-                            <div class="button">8</div>
-                            <div class="button">9</div>
-                            <div class="button">+</div>
-                            <div class="button">0</div>
-                            <div class="button">.</div>
-                            <div class="button">&lt;</div>
-                            <div class="button">=</div>
-                        </div>
-                    </div>`;
+    calculation () {
 
-        this.DOM.insertAdjacentHTML('beforeend', HTML);
     }
+
+    displayUpdate () {
+        this.actionScreen.innerText = this.actionScreen;
+    }
+
 }
 
-export { Calculator }
+const numberButtons = document.querySelectorAll('.button.number');
+const operationButtons = document.querySelectorAll('.button.operation');
+const equalButtons = document.querySelector('.button.red');
+const clearButtons = document.querySelector('.button.clear');
+const deleteButtons = document.querySelector('.button.delete');
+const actionScreen = document.querySelector('.action');
+const resultScreen = document.querySelector('.result');
+
+const calculator = new Calculator(actionScreen, resultScreen);
+
+numberButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.appendNumber(button.innerText);
+        calculator.displayUpdate();
+    })    
+});
+operationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.oprationChoise(button.innerText);
+        calculator.displayUpdate();
+    })    
+});

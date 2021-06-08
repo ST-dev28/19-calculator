@@ -24,6 +24,7 @@
   color: #615f5ffd;
   width: 100%;
   margin-top: 40px;
+  background-color: pink;
 }
 
 .calculator > .screen > .action {
@@ -32,6 +33,9 @@
   color: #615f5ffd;
   width: 100%;
   margin-top: 15px;
+  word-wrap: break-word;
+  word-break: break-all;
+  background-color: aquamarine;
 }
 
 .calculator > .keyboard {
@@ -52,7 +56,6 @@
   cursor: pointer;
 }
 
-
 .calculator > .keyboard > .button.light {
   background-color: #e0e2e6;
 }
@@ -62,8 +65,30 @@
 }
 
 .calculator > .keyboard > .button.red {
-  background-color: #ff5467;
+  background-color: #f06f7e;
+}
+.calculator > .keyboard > .button.red:hover {
+  background-color: #ec0d27;
+  font-weight: bold;
 }
 
-.calculator > .keyboard > .button.active {
+.calculator > .keyboard > .button.number:hover {
+  background-color: #c9c8c5;
+  font-weight: bold;
+}
+
+.calculator > .keyboard > .button.operation:hover {
+  background-color: #4b4747;
+  color: white;
+  font-weight: bold;
+}
+
+.calculator > .keyboard > .button.clear:hover {
+  background-color: #0b4cda;
+  color: white;
+  font-weight: bold;
+}
+.calculator > .keyboard > .button.delete:hover {
+  background-color: #8ac0f1;
+  font-weight: bold;
 }

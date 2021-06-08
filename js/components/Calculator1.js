@@ -9,76 +9,129 @@
 - visi kiti nedaro nieko
 */
 class Calculator {
-    constructor(actionScreen, resultScreen) {
-        this.actionScreen = actionScreen;
-        this.resultScreen = resultScreen;
+    constructor(previousTextElement, currentTextElement) {
+        this.previousTextElement = previousTextElement;
+        this.currentTextElement = currentTextElement;
         this.clear();
-
     }
-//panaikinti viska, kas parasyta abiejuose languose
+
     clear() {
-        this.actionScreen = '';
-        this.resultScreen = '';
-        this.operation = undefined; // jei istrinam, nera jokio pasirinkimo
+        this.currentText = '';
+        this.previousText = '';
+        this.operation = undefined;
     }
 
-    delete () {
-
-
+    delete() {
+        this.currentText = this.currentText.toString().slice(0, -1);
     }
 
-    appendNumber (number) {
-       if (number === '.' && this.actionScreen.includes('.')) return;
-        //verciam i stringa, kad pvz sudetis butu 1+1=2, bet ne 1+1=11
-        this.actionScreen = this.actionScreen.toString() + number.toString(); 
+    appendNumber(number) {
+        if (number === '.' && this.currentText.includes('.')) return;      // antro 'kablelio' skaiciuje buti negali
+        this.currentText = this.currentText.toString() + number.toString();
     }
 
-    operationChoise (operation) {
-        if (this.actionScreen === '') return;
-        if (this.resultScreen !== '') {
-            this.calculation();
+    chooseOperation(operation) {
+        if (this.currentText === '') return;
+        if (this.previousText !== '') {
+            this.compute();
+
         }
         this.operation = operation;
-        this.resultScreen = this.actionScreen;
-        this.actionScreen = '';
+        this.previousText = this.currentText;
+        this.currentText = '';
     }
 
-    calculation () {
-        let calculating
-        const prev = parseFloat(this.resultScreen);
-        const current = parseFloat(this.actionScreen);
-        if(isNaN(prev) || isNaN(current)) return;
-
+    compute() {
+        let calculation = 0;
+        const prev = parseFloat(this.previousText);
+        const current = parseFloat(this.currentText);
+        if (isNaN(prev) || isNaN(current)) return;
+        switch (this.operation) {
+            case '+':
+                calculation = prev + current;
+                break;
+            case '-':
+                calculation = prev - current;
+                break;
+            case 'x':
+                calculation = prev * current;
+                break;
+            case '/':
+                calculation = prev / current;
+                break;
+            default:
+                return;
+        }
+        this.currentText = calculation;
+        this.operation = undefined;
+        this.previousText = '';
     }
-    displayUpdate () {
-        this.actionScreen.innerText = this.actionScreen;
+
+    getDisplayNumber(number) {
+        const stringNumber = number.toString();
+        const integerDigits = parseFloat(stringNumber.split('.')[0]);
+        const decimalDigits = stringNumber.split('.')[1];
+        let integerDisplay = '';
+        if (isNaN(integerDigits)) {
+            integerDisplay = '';
+        } else {
+            integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
+        }
+        if (decimalDigits != null) {
+            return `${integerDisplay}.${decimalDigits}`;
+        } else {
+            return integerDisplay;
+        }
+    }
+
+    updateDisplay() {
+        this.currentTextElement.innerText = this.getDisplayNumber(this.currentText);
+        if (this.operation != null) {
+            this.previousTextElement.innerText = `${this.getDisplayNumber(this.previousText)} ${this.operation}`;
+            this.currentTextElement.innerText = this.getDisplayNumber(this.currentText);
+        } else {
+            this.previousTextElement.innerText = '';
+        }
     }
 }
 
 
-const numberButtons = document.querySelectorAll('.button.number');
-//console.log(numberButtons);
-const operationButtons = document.querySelectorAll('.button.operation');
-//console.log(operationButtons);
-const equalButtons = document.querySelector('.button.red');
-//console.log(equalButtons);
-const clearButtons = document.querySelector('.button.clear');
-//console.log(clearButtons);
-const deleteButtons = document.querySelector('.button.delete');
-const actionScreen = document.querySelector('.action');
-const resultScreen = document.querySelector('.result');
+const numberButtons = document.querySelectorAll('.button.number')
+const operationButtons = document.querySelectorAll('.button.operation')
+const equalsButton = document.querySelector('.button.red')
+const deleteLastButton = document.querySelector('.button.delete')
+const clearButton = document.querySelector('.button.clear')
+const previousTextElement = document.querySelector('.result')
+const currentTextElement = document.querySelector('.action')
 
-const calculator = new Calculator(actionScreen, resultScreen);
+const calculator = new Calculator(previousTextElement, currentTextElement);
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
-        calculator.appendNumber(button.innerText);
-        calculator.displayUpdate();
-    })    
-});
+        calculator.appendNumber(button.innerText)
+        calculator.updateDisplay()
+    })
+})
+
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
-        calculator.oprationChoise(button.innerText);
-        calculator.displayUpdate();
-    })    
-});
+        calculator.chooseOperation(button.innerText)
+        calculator.updateDisplay()
+    })
+})
+
+equalsButton.addEventListener('click', button => {
+    calculator.compute()
+    calculator.updateDisplay()
+})
+
+clearButton.addEventListener('click', button => {
+    calculator.clear()
+    calculator.updateDisplay()
+})
+
+deleteLastButton.addEventListener('click', button => {
+    calculator.delete()
+    calculator.updateDisplay()
+})
+
